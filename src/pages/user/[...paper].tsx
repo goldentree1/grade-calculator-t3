@@ -14,7 +14,7 @@ export default function Paper({ data }: PaperProps) {
 export const getServerSideProps: GetServerSideProps<{
     data: RouterOutputs['user']['getPaper']
 }> = async (ctx) => {
-    const paper = ctx.query.paper;
+    const paper = ctx.query.paper; //user's paper id from url /user/":id"
 
     const session = await getServerAuthSession(ctx);
     if (!session || !session.user || !paper) {

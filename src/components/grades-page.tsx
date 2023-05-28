@@ -2,7 +2,7 @@ import { Card, CardHeader, CardDescription, CardTitle, CardContent } from "@/com
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import GradesTable from "@/components/grades-table";
-import type { Grade } from "@/components/grades-table";
+import type { Grade } from "@/types/Grade";
 import type { RouterOutputs } from "@/utils/api";
 
 interface GradesPageProps {

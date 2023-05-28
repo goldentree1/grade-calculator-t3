@@ -12,8 +12,7 @@ import { useEffect, useState } from "react";
 import { Icons } from "./ui/icons";
 import { useSession } from "next-auth/react";
 import { api } from "@/utils/api";
-
-export type Grade = { testName: string; testGrade: string; testWeight: string; }
+import type { Grade } from "@/types/Grade";
 const defaultGrade: Grade = {
     testGrade: '64',
     testName: 'Example test 1',
