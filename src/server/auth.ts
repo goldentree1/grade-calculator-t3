@@ -40,13 +40,23 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, token }) => {
+      if (session.user) {
+        const tokenId = token.id as string;
+        session.user.id = tokenId;
+        session.user.email = token.email;
+        session.user.name = token.name;
+      }
+      return session;
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email
+        token.name = user.name
+      }
+      return token;
+    },
   },
   adapter: PrismaAdapter(prisma),
   providers: [
