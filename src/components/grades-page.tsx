@@ -62,13 +62,16 @@ const GradesPage: React.FC<GradesPageProps> = ({ paper: passedInPaper }) => {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                {<GradesTable initialGrades={passedInPaper?.grades?.map((g) => {
-                                    return {
+                                {<GradesTable
+                                    usingSavedFile={Boolean(passedInPaper)}
+                                    savedId={passedInPaper?.id ?? undefined}
+                                    savedName={passedInPaper?.name ?? undefined}
+                                    initialGrades={passedInPaper?.grades?.map((g) => ({
                                         testGrade: g.grade.toFixed(1),
                                         testName: g.name,
                                         testWeight: g.weight.toFixed(2)
-                                    }
-                                })} onChange={(gs) => setGrades(gs)} />}
+                                    }))}
+                                    onChange={(gs) => setGrades(gs)} />}
                             </CardContent>
                         </Card>
                         <Card className="mx-12 w-full pt-2 h-full">
@@ -100,8 +103,11 @@ const GradesPage: React.FC<GradesPageProps> = ({ paper: passedInPaper }) => {
                                 </div>
                                 <div className="h-full">
                                     {requiredGrade ? (<>
-                                        <p>
-                                            You need {requiredGrade.toFixed(1)}% to achieve your goal.
+
+                                        <p className="py-3 font-semibold text-lg">
+                                            {requiredGrade > 100 && `I'm sorry to say, but that grade is impossible to achieve with your current grades.`}
+                                            {requiredGrade < 0 && `You've already achieved your goal, you don't need anything! Nice work.`}
+                                            {requiredGrade >= 0 && requiredGrade <= 100 && ` You need ${requiredGrade.toFixed(1)}% to achieve your goal.`}
                                         </p>
                                     </>) : (<>
                                     </>)}

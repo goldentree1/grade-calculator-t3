@@ -22,18 +22,15 @@ const defaultGrade: Grade = {
 type GradesProps = {
     onChange?: (newGrades: Grade[]) => void;
     initialGrades?: Grade[];
-    usingSavedFile?: boolean;
-    savedName?: string;
-    savedId?: string;
 }
 
-export default function GradesTable({ onChange, initialGrades, usingSavedFile, savedId, savedName }: GradesProps) {
+export default function GradesTable({ onChange, initialGrades }: GradesProps) {
     const { data: session } = useSession()
     const { mutate: mutatePaper } = api.user.addPaper.useMutation();
 
     const [grades, setGrades] = useState(initialGrades || [defaultGrade]); //set a default
     const [mounted, setMounted] = useState(false);
-    const [paperName, setPaperName] = useState(savedName ?? '');
+    const [paperName, setPaperName] = useState('');
 
     useEffect(() => { //Prevent hydration issues
         setMounted(true);
@@ -132,7 +129,7 @@ export default function GradesTable({ onChange, initialGrades, usingSavedFile, s
                 <form className="flex gap-1" action="/heyyy"
                     onSubmit={((e) => {
                         e.preventDefault();
-                        void handleAddPaper();
+
                     })}>
                     <input
                         value={paperName}
@@ -140,10 +137,11 @@ export default function GradesTable({ onChange, initialGrades, usingSavedFile, s
                         type="text"
                         className="flex-1 w-full py-1 px-2 rounded-lg border-gray-200 border-2"
                         placeholder='Paper name (e.g., "math")'
-                        required
-                        disabled={Boolean(usingSavedFile)}
-                        />
+                        required />
                     <Button
+                        onClick={() => {
+                            void handleAddPaper();
+                        }}
                         className="max-w-fit"
                         variant={"secondary"}
                         disabled={!session?.user}

@@ -1,7 +1,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-
+import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 import {
     NavigationMenu,
@@ -93,7 +93,7 @@ export default function Navigation() {
                                                     Please sign in or make an account to save your grades.
                                                 </p>
                                             </>)}
-                                            <Button className="mt-5" onClick={session ? () => void signOut() : () => void signIn()}>
+                                            <Button className="mt-5 flex" onClick={session ? () => void signOut() : () => void signIn()}>
                                                 {session ? "Sign out" : "Sign in"}
                                             </Button>
                                         </>
@@ -104,30 +104,22 @@ export default function Navigation() {
                             {
                                 userPapers?.map((paper, i) => {
                                     return (
-                                        <ListItem key={`paper-${i}`} href={`/user/${paper.id}`} title={paper.name}>
-                                            {/* {paper.name} */}
+                                        <ListItem key={`paper-${i}`} href={`/papers/${paper.id}`} title={paper.name}>
+                                            {/* Current average: {paper.gradeAverage}. {paper.amountCompleted * 100}/100 complete! */}
+                                            <div className="flex space-x-3">
+                                                <span>Progress:</span>
+                                                <Progress value={paper.amountCompleted * 100} />
+                                            </div>
+                                            <div>
+                                                <span>Current Average: {paper.gradeAverage.toFixed(1)}%</span>
+                                            </div>
                                         </ListItem>
                                     )
                                 })
                             }
-                            {session && <ListItem className="font-bold" title="See all papers" href="/account"></ListItem>}
-
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {components.map((component) => (
-                                <ListItem
-                                    key={component.title}
-                                    title={component.title}
-                                    href={component.href}
-                                >
-                                    {component.description}
-                                </ListItem>
-                            ))}
+                            {session && <ListItem className="font-bold" title="See all papers" href="/account">
+                                </ListItem>}
+                            
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
