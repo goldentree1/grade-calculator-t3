@@ -7,42 +7,6 @@ import {
 
 export const userRouter = createTRPCRouter({
 
-  // updatePaper: protectedProcedure
-  //   .input(z.object({
-  //     name: z.string(),
-  //     userId: z.string(),
-  //     grades: z.object({
-  //       grade: z.number(),
-  //       weight: z.number(),
-  //       name: z.string(),
-  //     }).array(),
-  //     id: z.string(), //this should NOT be optional.
-  //   })).mutation(async ({ ctx, input }) => {
-  //     const p = await ctx.prisma.user.update({
-  //       data: {
-  //         papers: {
-  //           update: {
-  //             data: {
-  //               Grades: {
-  //                 deleteMany: {},
-  //                 createMany: {
-
-  //                 }
-  //               },
-  //             },
-  //             where: {
-  //               id: input.id
-  //             }
-  //           }
-  //         }
-
-  //       },
-  //       where: {
-  //         id: input.userId
-  //       }
-  //     })
-  //   }),
-
   addPaper: protectedProcedure
     .input(z.object({
       name: z.string(),
